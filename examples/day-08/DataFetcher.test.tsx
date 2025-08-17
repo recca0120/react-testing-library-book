@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DataFetcher } from './DataFetcher';
 
@@ -18,6 +18,7 @@ describe('DataFetcher - Async Testing', () => {
   });
 
   afterEach(() => {
+    vi.clearAllTimers();
     vi.useRealTimers();
     mockMath.mockRestore();
   });
@@ -34,7 +35,9 @@ describe('DataFetcher - Async Testing', () => {
     render(<DataFetcher userId={1} onUserLoaded={mockOnUserLoaded} />);
 
     // Fast-forward past the loading delay
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('user-data')).toBeInTheDocument();
@@ -56,7 +59,9 @@ describe('DataFetcher - Async Testing', () => {
   test('handles different user IDs', async () => {
     render(<DataFetcher userId={5} />);
 
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('user-id')).toHaveTextContent('5');
@@ -71,7 +76,9 @@ describe('DataFetcher - Async Testing', () => {
 
     render(<DataFetcher userId={1} onError={mockOnError} />);
 
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('error-state')).toBeInTheDocument();
@@ -91,7 +98,9 @@ describe('DataFetcher - Async Testing', () => {
     render(<DataFetcher userId={1} />);
 
     // Initial load fails
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('error-state')).toBeInTheDocument();
     });
@@ -104,7 +113,9 @@ describe('DataFetcher - Async Testing', () => {
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
     // Advance time for retry
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     // Should now show user data
     await waitFor(() => {
@@ -119,14 +130,18 @@ describe('DataFetcher - Async Testing', () => {
     render(<DataFetcher userId={1} />);
 
     // Initial load fails
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('retry-button')).toHaveTextContent('Retry (0 attempts)');
     });
 
     // Retry once
     await user.click(screen.getByTestId('retry-button'));
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('retry-button')).toHaveTextContent('Retry (1 attempts)');
     });
@@ -134,7 +149,9 @@ describe('DataFetcher - Async Testing', () => {
     // Click refresh
     mockMath.mockReturnValue(0.5); // Next attempt will succeed
     await user.click(screen.getByTestId('refresh-button'));
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     // Should show user data
     await waitFor(() => {
@@ -147,7 +164,9 @@ describe('DataFetcher - Async Testing', () => {
     render(<DataFetcher userId={1} />);
 
     // Initial successful load
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('user-data')).toBeInTheDocument();
     });
@@ -159,7 +178,9 @@ describe('DataFetcher - Async Testing', () => {
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
     // Complete loading
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('user-data')).toBeInTheDocument();
     });
@@ -169,7 +190,9 @@ describe('DataFetcher - Async Testing', () => {
     const { rerender } = render(<DataFetcher userId={1} />);
 
     // Initial load
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('user-id')).toHaveTextContent('1');
     });
@@ -181,7 +204,9 @@ describe('DataFetcher - Async Testing', () => {
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
     // Complete new load
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(screen.getByTestId('user-id')).toHaveTextContent('3');
       expect(screen.getByTestId('user-name')).toHaveTextContent('User 3');
@@ -196,7 +221,9 @@ describe('DataFetcher - Async Testing', () => {
     rerender(<DataFetcher userId={3} />);
 
     // Advance time once
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     // Should show the latest user (3)
     await waitFor(() => {
@@ -212,7 +239,9 @@ describe('DataFetcher - Async Testing', () => {
     expect(loadingElement).toHaveAttribute('aria-live', 'polite');
 
     // Complete loading
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('user-data')).toBeInTheDocument();
@@ -223,7 +252,9 @@ describe('DataFetcher - Async Testing', () => {
     mockMath.mockReturnValue(0.1);
     render(<DataFetcher userId={1} />);
 
-    vi.advanceTimersByTime(1000);
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
 
     await waitFor(() => {
       const errorElement = screen.getByRole('alert');

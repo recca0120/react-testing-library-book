@@ -64,7 +64,7 @@ describe('SearchInput - Debounced Interactions', () => {
   });
 
   test('shows clear button when input has value', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<SearchInput onSearch={mockOnSearch} />);
     
     const input = screen.getByLabelText('Search input');
@@ -145,14 +145,14 @@ describe('SearchInput - Debounced Interactions', () => {
   });
 
   test('clear button is disabled when input is disabled', async () => {
-    const user = userEvent.setup();
-    render(<SearchInput onSearch={mockOnSearch} />);
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { rerender } = render(<SearchInput onSearch={mockOnSearch} />);
     
     const input = screen.getByLabelText('Search input');
     await user.type(input, 'test');
     
     // Re-render with disabled prop
-    render(<SearchInput onSearch={mockOnSearch} disabled={true} />);
+    rerender(<SearchInput onSearch={mockOnSearch} disabled={true} />);
     
     const clearButton = screen.getByLabelText('Clear search');
     expect(clearButton).toBeDisabled();

@@ -96,7 +96,8 @@ describe('TodoApp - Complete Integration Tests', () => {
     const input = screen.getByTestId('new-todo-input');
     await user.type(input, 'Complete me{enter}');
 
-    const todoItem = screen.getByTestId('todo-item-' + expect.any(Number));
+    // Find the todo item by text content
+    const todoItem = screen.getByText('Complete me').closest('li')!;
     const checkbox = within(todoItem).getByRole('checkbox');
 
     // Initially not completed
@@ -139,12 +140,14 @@ describe('TodoApp - Complete Integration Tests', () => {
     // Add a todo
     await user.type(screen.getByTestId('new-todo-input'), 'Edit me{enter}');
     
-    const todoLabel = screen.getByTestId('todo-label-' + expect.any(Number));
+    // Find the todo label by text
+    const todoLabel = screen.getByText('Edit me');
     
     // Double click to edit
     await user.dblClick(todoLabel);
     
-    const editInput = screen.getByTestId('edit-input-' + expect.any(Number));
+    // Find the edit input that appears
+    const editInput = screen.getByDisplayValue('Edit me');
     expect(editInput).toBeInTheDocument();
     expect(editInput).toHaveValue('Edit me');
   });
@@ -156,9 +159,13 @@ describe('TodoApp - Complete Integration Tests', () => {
 
     // Add and edit a todo
     await user.type(screen.getByTestId('new-todo-input'), 'Original text{enter}');
-    await user.dblClick(screen.getByTestId('todo-label-' + expect.any(Number)));
     
-    const editInput = screen.getByTestId('edit-input-' + expect.any(Number));
+    // Find and double click the todo label
+    const todoLabel = screen.getByText('Original text');
+    await user.dblClick(todoLabel);
+    
+    // Find the edit input
+    const editInput = screen.getByDisplayValue('Original text');
     await user.clear(editInput);
     await user.type(editInput, 'Edited text{enter}');
 
@@ -173,9 +180,13 @@ describe('TodoApp - Complete Integration Tests', () => {
 
     // Add and start editing a todo
     await user.type(screen.getByTestId('new-todo-input'), 'Original{enter}');
-    await user.dblClick(screen.getByTestId('todo-label-' + expect.any(Number)));
     
-    const editInput = screen.getByTestId('edit-input-' + expect.any(Number));
+    // Find and double click the todo label
+    const todoLabel = screen.getByText('Original');
+    await user.dblClick(todoLabel);
+    
+    // Find the edit input
+    const editInput = screen.getByDisplayValue('Original');
     await user.clear(editInput);
     await user.type(editInput, 'Changed{escape}');
 
@@ -249,15 +260,19 @@ describe('TodoApp - Complete Integration Tests', () => {
     localStorageMock.getItem.mockReturnValue(null);
     render(<TodoApp />);
 
-    // Add todos and complete some
+    // Add todos
     await user.type(screen.getByTestId('new-todo-input'), 'Keep this{enter}');
     await user.type(screen.getByTestId('new-todo-input'), 'Complete this{enter}');
     await user.type(screen.getByTestId('new-todo-input'), 'Complete this too{enter}');
 
-    // Complete two todos
-    const checkboxes = screen.getAllByRole('checkbox');
-    await user.click(checkboxes[2]); // Complete "Complete this"
-    await user.click(checkboxes[3]); // Complete "Complete this too"
+    // Complete specific todos by finding their checkboxes
+    const todo2 = screen.getByText('Complete this').closest('li')!;
+    const checkbox2 = within(todo2).getByRole('checkbox');
+    await user.click(checkbox2);
+
+    const todo3 = screen.getByText('Complete this too').closest('li')!;
+    const checkbox3 = within(todo3).getByRole('checkbox');
+    await user.click(checkbox3);
 
     // Clear completed
     const clearButton = screen.getByTestId('clear-completed');

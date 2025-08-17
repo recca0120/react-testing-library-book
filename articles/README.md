@@ -15,10 +15,10 @@
 
 ### 第二週：進階技巧 (Day 8-14)
 - ✅ [Day 8: 非同步測試 - waitFor 與 findBy](./day-08/async-testing.md)
-- ✅ [Day 9: Mock 技巧 - Vitest Mock Functions](./day-09/mock-techniques.md)
-- ✅ [Day 10: Context API 測試](./day-10/context-testing.md)
+- ✅ [Day 9: Mock 技巧 - Vitest Mock Functions](./day-09/mock-functions.md)
+- ✅ [Day 10: Context API 測試](./day-10/context-api-testing.md)
 - ✅ [Day 11: Router 測試 - React Router](./day-11/router-testing.md)
-- ✅ [Day 12: 表單驗證測試](./day-12/form-validation.md)
+- ✅ [Day 12: 表單驗證測試](./day-12/form-validation-testing.md)
 - ✅ [Day 13: 測試可訪問性 (Accessibility)](./day-13/accessibility-testing.md)
 - 📝 Day 14: 效能測試基礎
 
@@ -29,7 +29,7 @@
 - 📝 Day 18: WebSocket 測試
 - 📝 Day 19: 檔案上傳測試
 - 📝 Day 20: 國際化 (i18n) 測試
-- ✅ [Day 21: 測試覆蓋率與報告](./day-21/coverage-reports.md)
+- ✅ [Day 21: 測試覆蓋率與報告](./day-21/test-coverage-reporting.md)
 
 ### 第四週：最佳實踐與實戰 (Day 22-30)
 - 📝 Day 22: 測試組織與命名
@@ -37,10 +37,10 @@
 - 📝 Day 24: 錯誤邊界測試
 - 📝 Day 25: 視覺迴歸測試
 - 📝 Day 26: E2E 測試整合
-- ✅ [Day 27: 實戰專案 - Todo App 完整測試](./day-27/todo-app-testing.md)
+- ✅ [Day 27: 實戰專案 - Todo App 完整測試](./day-27/todo-app-complete-testing.md)
 - 📝 Day 28: 實戰專案 - 電商購物車測試
 - 📝 Day 29: 測試重構與維護
-- ✅ [Day 30: 總結與進階資源](./day-30/conclusion-resources.md)
+- ✅ [Day 30: 總結與進階資源](./day-30/summary-advanced-resources.md)
 
 ## 🎯 學習目標
 
