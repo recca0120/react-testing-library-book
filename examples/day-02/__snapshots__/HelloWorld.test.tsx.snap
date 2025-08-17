@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HelloWorld Component > matches snapshot 1`] = `
+<div
+  class="hello-container"
+>
+  <h1>
+    Hello, 
+    Snapshot
+    !
+  </h1>
+  <p>
+    Welcome to React Testing Library with Vitest
+  </p>
+</div>
+`;

@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HelloWorld Component > component structure is correct 1`] = `
+<div>
+  <h1>
+    Hello, 
+    Bob
+    !
+  </h1>
+  <p>
+    Welcome to React Testing Library
+  </p>
+</div>
+`;
